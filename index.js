@@ -39,7 +39,7 @@ Mongoose Connection URL
 - Use process.env.DB_URI for MongoDB hosted on Atlas or Cosmos
 - Define DB_URI in the .env file, where it's value has to be the connection URL provided by MongoDB Atlas Cluster.
 */
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DATABASE_URL);
 
 var WooCommerce = new WooCommerceAPI({
     url: 'https://startupkro.com',
