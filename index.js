@@ -297,7 +297,7 @@ var paymentLink;
 var quotData;
 
 app.post("/quot-data", function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     email = req.body.Email;
     phoneNumber = req.body.Number;
     name = req.body.Name;
@@ -322,7 +322,7 @@ app.post("/quot-data", function (req, res) {
                 }
             };
             WooCommerce.postAsync('customers', newCustomerData).then(function (result) {
-                console.log(JSON.parse(result.toJSON().body));
+                //console.log(JSON.parse(result.toJSON().body));
             });
         }
         const newOrderData = {
@@ -348,7 +348,7 @@ app.post("/quot-data", function (req, res) {
         };
         WooCommerce.postAsync('orders', newOrderData).then(function (result) {
             createdOrderData = JSON.parse(result.toJSON().body);
-            console.log(createdOrderData);
+            //console.log(createdOrderData);
             paymentLink = createdOrderData.payment_url;
             quotData = {
                 name: name,
@@ -360,7 +360,7 @@ app.post("/quot-data", function (req, res) {
                 total: createdOrderData.total,
                 link: paymentLink,
             };
-            console.log(quotData);
+            //console.log(quotData);
             res.redirect("/generatepdf");
         });
         //////////////////////////////////////////
@@ -415,7 +415,7 @@ app.post("/create-quote", async function (req, res) {
             prodArr[i] = prodArr[i].trim();
             priceArr[i] = priceArr[i].trim();
         }
-        console.log(prodArr, priceArr);
+        //console.log(prodArr, priceArr);
         const prodData = {
             name: "",
             type: 'simple',
@@ -427,14 +427,14 @@ app.post("/create-quote", async function (req, res) {
         for (var i = 0; i < prodArr.length; i++) {
             prodData.name = prodArr[i];
             prodData.regular_price = priceArr[i];
-            console.log(prodData.name, prodData.regular_price);
+            //console.log(prodData.name, prodData.regular_price);
             await WooCommerce.postAsync('products', prodData).then(function (result) {
-                console.log(JSON.parse(result.toJSON().body));
+                //console.log(JSON.parse(result.toJSON().body));
                 prodIds.push(JSON.parse(result.toJSON().body).id);
             });
         }
 
-        console.log(prodIds);
+        //console.log(prodIds);
 
         email = req.body.email;
         phoneNumber = req.body.number;
@@ -459,7 +459,7 @@ app.post("/create-quote", async function (req, res) {
                     }
                 };
                 WooCommerce.postAsync('customers', newCustomerData).then(function (result) {
-                    console.log(JSON.parse(result.toJSON().body));
+                    //console.log(JSON.parse(result.toJSON().body));
                 });
             }
             const newOrderData = {
@@ -486,10 +486,10 @@ app.post("/create-quote", async function (req, res) {
                 };
                 newOrderData.line_items.push(prod);
             }
-            console.log(newOrderData);
+            //console.log(newOrderData);
             WooCommerce.postAsync('orders', newOrderData).then(function (result) {
                 createdOrderData = JSON.parse(result.toJSON().body);
-                console.log(createdOrderData);
+                //console.log(createdOrderData);
                 paymentLink = createdOrderData.payment_url;
                 quotData = {
                     name: name,
