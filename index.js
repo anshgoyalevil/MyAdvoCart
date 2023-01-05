@@ -34,6 +34,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+console.log(process.env.NODE_ENV, IS_PRODUCTION);
+
 /*
 Mongoose Connection URL
 - Use 'mongodb://127.0.0.1:27017/advoDB' for local installation of MongoDB
