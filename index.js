@@ -12,6 +12,7 @@ const nodemailer = require('nodemailer');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const http = require("http");
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const ejs = require('ejs');
 const fs = require('fs');
 const WooCommerceAPI = require('woocommerce-api');
@@ -83,10 +84,15 @@ var ProductID = new function () {
     };
 };
 
+const getBrowser = () =>
+    IS_PRODUCTION
+        ? // Connect to browserless so we don't run Chrome on the same hardware in production
+        puppeteer.connect({ browserWSEndpoint: 'wss://chrome.browserless.io?token=' + process.env.BL + '' })
+        : // Run the browser locally while in development
+        puppeteer.launch();
+
 async function generatePdf(html) {
-    const browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    const browser = await getBrowser();
     const page = await browser.newPage();
     await page.setContent(html);
     const pdf = await page.pdf({
